@@ -1,0 +1,39 @@
+* {
+    font-family:'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
+body {
+    background-color: mintcream;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.home {
+    color:red;
+}
+
+div {
+    margin:auto;
+    width:25%;
+    border: 3px solid lightblue;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: lightcyan;
+}
+
+#loginForm {
+    position:relative;
+    font-size: larger;
+}
+
+.fields {
+    width:100%;
+}
+
+#button {
+    position:relative;
+    left: 43%;
+}
