@@ -5,10 +5,11 @@
     <link rel="stylesheet"  type="text/css" href="/styles.css" />
   </head>
   <body>
-    <h1><a class="home" href="/"><%=pageName%></a></h1>
-    <p class="userId"> <%=userInfo.name%></p>
-    <p><a href="about">About</a></p>
-    <p><a href="communication">Start chatting</a></p>
-    <p><a href="login">Login</a></p>
+    <h1><a class="home" href="/"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <nav>
+      <p><a href="about">About</a></p>
+      <p><a href="communication">Start chatting</a></p>
+      <p><a href="login">Login</a></p>
+    </nav>
   </body>
 </html>

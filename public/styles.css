@@ -3,7 +3,19 @@
 }
 
 body {
-    background-color: mintcream;
+    background-color: beige;
+}
+
+h1 {
+    display: flex;
+    flex-direction: row;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 a {
@@ -12,7 +24,13 @@ a {
 }
 
 .home {
-    color:red;
+    color:violet;
+}
+
+.welcome {
+    font-size: small;
+    font-weight: lighter;
+    margin-left: 80%;
 }
 
 div {
@@ -37,3 +55,4 @@ div {
     position:relative;
     left: 43%;
 }
+

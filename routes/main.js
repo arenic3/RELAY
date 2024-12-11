@@ -18,7 +18,6 @@ router.get('/communication',function(req,res){
     } else {
         res.send('Please log for full access!')
     }
-    
 });
 
 router.get('/login',function(req,res){
