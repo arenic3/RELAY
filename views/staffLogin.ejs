@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=pageName%></title>
+    <link rel="stylesheet"  type="text/css" href="/styles.css" />
+</head>
+<body class="pre">
+    <h1><a class="home" href="/"><%=pageName%></a></h1>
+    <div>
+        <form id=loginForm method="POST" action="/staff-home">
+            <p>Email:</p>
+            <input class="fields" id="Email" type="text" name="Email" placeholder="email"/>
+            <p>Password:</p>
+            <input class="fields" id="Pword" type="password" name="Pword" placeholder="password"/>
+            <input id="button" type="submit" value="Log in"/>
+        </form>
+    </div>
+</body>
+</html>
