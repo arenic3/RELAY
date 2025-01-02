@@ -5,6 +5,55 @@
     <link rel="stylesheet"  type="text/css" href="/styles.css" />
 </head>
 <body>
-    <h1><a class="staffHome" href="/staff-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <!--Header with Logo home button and current user info-->
+    <h1><a class="studHome" href="/student-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <div class="studComm">
+        <form id="stuMessForm">
+            <input type="hidden" name="studentId" value="<%=userInfo[0].id%>"/>
+            <label for="recipient">Select recipient:</label>
+            <select name="teacherId" id="recipient" required>
+                <option value="">--Select a Teacher--</option>
+                <%for(let i = 0; i<teachers.length; i++) { %>
+                        <option value="<%=teachers[i].id %>"><%=teachers[i].name%> (<%=teachers[i].email%>)</option>
+                        <% }; %>
+            </select>
+            <textarea name="message" required placeholder="Type message here..."></textarea>
+            <button type="submit">Send!</button>
+        </form>
+    </div>
+
+    <!--Confirmation message and "back" button-->
+    <div id="confirmation" style="display: none;">
+        <p>Message sent!</p>
+        <button onclick="keepMessaging()">Keep Messaging</button>
+    </div>
+
+    <!--AJAX form submission to display confirmation message and return to messaging-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
+    <script>
+        $(document).ready(function() {
+            $('#stuMessForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the form from submitting the traditional way
+
+                $.ajax({
+                    url: '/student-communication',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('.studComm').hide(); // Hide the form
+                        $('#confirmation').show(); // Show the confirmation message
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error sending message: ' + error);
+                    }
+                });
+            });
+        });
+
+        function keepMessaging() {
+            $('#confirmation').hide(); // Hide the confirmation message
+            $('.studComm').show(); // Show the form again
+        }
+</script>
 </body>
 </html>
