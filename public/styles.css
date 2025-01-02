@@ -107,6 +107,7 @@ button {                          /*Style input buttons and regular buttons sepe
 #loginForm {
     position:relative;
     font-size: larger;
+    height: 200px;
 }
 
 .fields {
