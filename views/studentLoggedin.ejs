@@ -2,14 +2,49 @@
 <html>
   <head>
     <title><%=pageName%></title>
-    <link rel="stylesheet"  type="text/css" href="/styles.css" />
+    <link rel="stylesheet"  type="text/css" href="/styles.css" /><!--CSS-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
   </head>
   <body class="studentPage">
     <!--Header with Logo home button and current user info-->
     <h1><a class="studHome" href="/student-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
-    <nav>
-      <p><a href="about">About</a></p>
-      <p><a href="student-communication">Start chatting</a></p>
-    </nav>
+    <div class="container">
+      <nav>
+        <p><a href="about">About</a></p>
+        <p><a href="student-communication">Start chatting</a></p>
+      </nav>
+
+       <!--Sign out button-->
+       <div class="signout">
+        <button id="signoutButton">Sign Out</button>
+      </div>
+    </div>
+
+    <!--Sign out functionality-->
+    <script>
+      $(document).ready(function() {
+      // Sign out button event listener
+      $('#signoutButton').on('click', function() {
+          // Call the sign-out function
+          signOut();
+      });
+    });
+
+    // Sign-out function
+    function signOut() {
+      // Send a GET request to the sign-out route
+      $.ajax({
+          url: '/sign-out',
+          type: 'GET',
+          success: function(response) {
+              // Redirect to the login page
+              window.location.href = '/';
+          },
+          error: function(xhr, status, error) {
+              console.error('Error signing out:', error);
+          }
+      });
+    }
+    </script>
   </body>
 </html>

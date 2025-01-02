@@ -40,6 +40,8 @@ router.post('/home',function(req,res){
             if(results.length > 0) {
                 req.session.studentLoggedin = true;
                 req.session.email = email;
+                req.session.userRole = 'student';
+                req.session.userId = results[0].id;
 
                 //Create a new object for active student data to get sent to the app
                 userData = Object.assign({}, relayData, {userInfo:results});
@@ -74,6 +76,8 @@ router.post('/staff-home',function(req,res){
             if(results.length > 0) {
                 req.session.staffLoggedin = true;
                 req.session.email = email;
+                req.session.userRole = 'teacher';
+                req.session.userId = results[0].id;
 
                 //Create a new object for active student data to get sent to the app
                 userData = Object.assign({}, relayData, {userInfo:results});
@@ -89,6 +93,15 @@ router.post('/staff-home',function(req,res){
         res.send('Please enter login credentials');
     }
 });
+
+//Handle signing out
+router.get('/sign-out',function(req,res) {
+    //Destroy session
+    req.session.destroy(function(error) {
+        if (error) throw error;
+        res.redirect('/');
+    })
+})
 
 //Handle routes if logged in
 
@@ -156,24 +169,67 @@ router.post('/student-communication',function(req,res){
     });
 });
 
+router.post('/staff-communication',function(req,res){
+
+    const { teacherId, studentId, message } = req.body;
+
+    const query = 'INSERT INTO messages (student_id, teacher_id, message, timestamp) VALUES (?, ?, ?, NOW())';
+    db.query(query, [studentId, teacherId, message], (error, results) => {
+        if (error) throw error;
+        res.send('message sent successfully');
+    });
+});
+
 //Get messages
-router.get('student-messages',function(req,res){
-    if(!req.session.studenLoggedin) {
-        return res.send('Please log in for full access!')
+router.get('/fetch-messages',function(req,res){
+
+    const userId = req.session.userId;
+    const userRole = req.session.userRole;
+    let query, params;
+    
+    if (userRole == 'student') {
+        query = `
+            SELECT
+                m.id,
+                m.message,
+                m.timestamp,
+                s.name AS sender_name
+            FROM
+                messages m
+            JOIN
+                staff s ON m.teacher_id = s.id
+            WHERE
+                m.student_id = ?
+            ORDER BY 
+                m.timestamp DESC;
+            `;
+            params = [userId];
+    } else if (userRole == 'teacher') {
+        query = `
+            SELECT
+                m.id,
+                m.message,
+                m.timestamp,
+                st.name AS sender_name
+            FROM
+                messages m
+            JOIN
+                students st ON m.student_id = st.id
+            WHERE
+                m.teacher_id = ?
+            ORDER BY
+                m.timestamp DESC;
+            `;
+            params = [userId];
+    } else {
+        return res.send('Invalid user role');
     }
 
-    const { userId1, userId2 } = req.params;
-
-    const query = `
-    SELECT * FROM messages
-    WHERE (student_id = ? AND teacher_id = ?)
-    OR (student_id = ? AND teacher_id = ?)
-    ORDER BY timestamp ASC
-    `;
-    db.query(query, [userId1, userId2, userId2, userId1], function(error, results) {
+    db.query(query, params, (error, results) => {
         if (error) throw error;
-        res.json(results);
-    });
+        console.log(results);
+        res.json({ messages: results });
+    })
 });
 
 //Export modules

@@ -2,11 +2,13 @@
 <html>
 <head>
     <title><%=pageName%></title>
-    <link rel="stylesheet"  type="text/css" href="/styles.css" />
+    <link rel="stylesheet"  type="text/css" href="/styles.css" /><!--CSS-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
 </head>
-<body>
+<body class="staffPage">
     <!--Header with Logo home button and current user info-->
     <h1><a class="staffHome" href="/staff-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <div class="container">
     <div class="staffComm">
         <form id="staffMessForm">
             <input type="hidden" name="staffId" value="<%=userInfo[0].name%>"/>
@@ -28,19 +30,32 @@
         <button onclick="keepMessaging()">Keep Messaging</button>
     </div>
 
+    <!--Inbox button-->
+    <div class="inbox">
+        <button id="inboxButton">Inbox</button>
+        <div id="dropdown" class="dropdown-content">
+            <p>Loading messages...</p>
+        </div>
+    </div>
+
+    <!--Sign out button-->
+    <div class="signout">
+        <button id="signoutButton">Sign Out</button>
+    </div>
+</div>
+
     <!--AJAX form submission to display confirmation message and return to messaging-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
     <script>
         $(document).ready(function() {
-            $('#stuMessForm').on('submit', function(e) {
+            $('#staffMessForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the form from submitting the traditional way
 
                 $.ajax({
-                    url: '/student-communication',
+                    url: '/staff-communication',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
-                        $('.studComm').hide(); // Hide the form
+                        $('.staffComm').hide(); // Hide the form
                         $('#confirmation').show(); // Show the confirmation message
                     },
                     error: function(xhr, status, error) {
@@ -52,8 +67,78 @@
 
         function keepMessaging() {
             $('#confirmation').hide(); // Hide the confirmation message
-            $('.studComm').show(); // Show the form again
+            $('.staffComm').show(); // Show the form again
         }
+</script>
+
+<!--Inbox functionality with AJAX-->
+<script>
+    $(document).ready(function() {
+        // Toggle the dropdown
+        $('#inboxButton').on('click', function() {
+            $('#dropdown').toggle(); //Show/hide the dropdown
+            fetchMessages(); //Fetch messages
+        });
+
+        // Function to fetch messages from the server
+        function fetchMessages() {
+            $.ajax({
+                url: '/fetch-messages',
+                type: 'GET',
+                success: function(response) {
+                    if (response.messages.length > 0) { //Displays messages if user has any
+                        let messagesHtml = response.messages.map(msg => `
+                            <div class="message">
+                                <p><strong>From:</strong> ${msg.sender_name}</p>
+                                <p><strong>Message:</strong> ${msg.message}</p>
+                                <p><small>${formatTimestamp(msg.timestamp)}</small></p>
+                            </div>
+                        `).join('');
+                        $('#dropdown').html(messagesHtml);
+                    } else {
+                        $('#dropdown').html('<p>No new messages.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#dropdown').html('<p>Error loading messages.</p>');
+                }
+            });
+        }
+
+        //Get rid of redundant time info such as seconds...
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            return `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+        }
+    });
+</script>
+
+<!--Sign out functionality-->
+<script>
+    $(document).ready(function() {
+    //Sign out button event listener
+    $('#signoutButton').on('click', function() {
+        // Call the sign-out function
+        signOut();
+    });
+});
+
+//Sign-out function
+function signOut() {
+    $.ajax({
+        url: '/sign-out',
+        type: 'GET',
+        success: function(response) {
+            //Redirect
+            window.location.href = '/';
+        },
+        error: function(xhr, status, error) {
+            console.error('Error signing out:', error);
+        }
+    });
+}
 </script>
 </body>
 </html>

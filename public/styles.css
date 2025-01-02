@@ -3,15 +3,18 @@
 }
 
 .staffPage {
-    background-color:crimson;
+    background: rgb(245,204,204);
+    background: linear-gradient(90deg, rgba(245,204,204,1) 0%, rgba(201,38,38,1) 20%, rgba(244,133,1,1) 66%, rgba(219,131,230,1) 89%);
 }
 
 .studentPage {
-    background-color: aquamarine;
+    background: rgb(245,204,204);
+    background: linear-gradient(90deg, rgba(245,204,204,1) 0%, rgba(177,154,175,1) 20%, rgba(84,1,244,1) 66%, rgba(219,131,230,1) 89%);
 }
 
 .pre {
-    background-color: beige;
+    background: rgb(245,204,204);
+    background: linear-gradient(90deg, rgba(245,204,204,1) 0%, rgba(154,176,177,1) 20%, rgba(244,210,1,1) 100%);
 }
 
 h1 {
@@ -32,7 +35,15 @@ a {
 }
 
 .home {
-    color:violet;
+    color:red;
+}
+
+.studHome {
+    color:blueviolet;
+}
+
+.staffHome {
+    color: orange;
 }
 
 .welcome {
@@ -41,13 +52,56 @@ a {
     margin-left: 80%;
 }
 
-div {
+button {                          /*Style input buttons and regular buttons seperately*/
+    background-color:  #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#button {
+    background-color:  #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 5px;
+    background-color: beige;
+}
+
+.studComm {
     margin:auto;
     width:25%;
-    border: 3px solid lightblue;
+    border: none;
     border-radius: 10px;
     padding: 20px;
-    background-color: lightcyan;
+}
+
+.staffComm {
+    margin:auto;
+    width:25%;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 #loginForm {
@@ -59,8 +113,27 @@ div {
     width:100%;
 }
 
-#button {
-    position:relative;
-    left: 43%;
+.inbox {
+    position: absolute;
+    left: 10px;
+    width: 25%;
+    height: 117px;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 400px;
+}
+
+.signout {
+    position: absolute;
+    right: 10px;
+    height: 117px;
+}
+
+.aboutContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
