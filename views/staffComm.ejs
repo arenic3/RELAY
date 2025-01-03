@@ -83,7 +83,7 @@
         // Function to fetch messages from the server
         function fetchMessages() {
             $.ajax({
-                url: '/fetch-messages',
+                url: `${window.location.origin}/fetch-messages`,
                 type: 'GET',
                 success: function(response) {
                     if (response.messages.length > 0) { //Displays messages if user has any
@@ -128,7 +128,7 @@
 //Sign-out function
 function signOut() {
     $.ajax({
-        url: '/sign-out',
+        url: `${window.location.origin}/sign-out`,
         type: 'GET',
         success: function(response) {
             //Redirect
