@@ -34,7 +34,7 @@
     function signOut() {
       // Send a GET request to the sign-out route
       $.ajax({
-          url: `${window.location.origin}/sign-out`,
+          url: '/sign-out',
           type: 'GET',
           success: function(response) {
               // Redirect to the login page

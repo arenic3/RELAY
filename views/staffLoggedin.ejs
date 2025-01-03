@@ -32,7 +32,7 @@
     //Sign-out function
     function signOut() {
       $.ajax({
-          url: `${window.location.origin}/sign-out`,
+          url: '/sign-out',
           type: 'GET',
           success: function(response) {
               //Redirect

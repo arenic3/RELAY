@@ -10,7 +10,6 @@ const port = 8000;
 
 //Set ejs as templating engine
 app.set('view engine', 'ejs');
-app.set('views', (__dirname + '/views'));
 
 //Set up session
 app.use(session({
