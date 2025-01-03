@@ -7,7 +7,7 @@ const config = require('./config');
 
 //Create express app object
 var app = express();
-const port = 8001;
+const port = 8000;
 const basePath = config.basePath;
 
 //Base path middleware
