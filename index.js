@@ -24,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 //CSS
 app.use(express.static(__dirname + '/public'));
 
+//Client side js
+app.use(express.static(__dirname + '/views'));
+
 //Define database connection
 const db = mysql.createConnection ({
     host: 'localhost',
