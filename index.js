@@ -6,7 +6,7 @@ const session = require ('express-session');
 
 //Create express app object
 var app = express();
-const port = 8000;
+const port = 8001;
 
 //Set ejs as templating engine
 app.set('view engine', 'ejs');
