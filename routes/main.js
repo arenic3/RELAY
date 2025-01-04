@@ -99,7 +99,7 @@ router.get('/sign-out',function(req,res) {
     //Destroy session
     req.session.destroy(function(error) {
         if (error) throw error;
-        res.redirect('/');
+        res.redirect('/RELAY');
     })
 })
 
@@ -162,7 +162,7 @@ router.post('/student-communication',function(req,res){
 
     const { studentId, teacherId, message } = req.body;
 
-    const query = 'INSERT INTO messages (student_id, teacher_id, message, timestamp) VALUES (?, ?, ?, NOW())';
+    const query = 'INSERT INTO messages (student_id, _id, message, timestamp) VALUES (?, ?, ?, NOW())';
     db.query(query, [studentId, teacherId, message], (error, results) => {
         if (error) throw error;
         res.send('message sent successfully');

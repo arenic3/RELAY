@@ -2,16 +2,16 @@
 <html>
   <head>
     <title><%=pageName%></title>
-    <link rel="stylesheet"  type="text/css" href="/styles.css" /><!--CSS-->
+    <link rel="stylesheet"  type="text/css" href="/RELAY/styles.css" /><!--CSS-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
   </head>
   <body class="studentPage">
     <!--Header with Logo home button and current user info-->
-    <h1><a class="studHome" href="/student-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <h1><a class="studHome" href="/RELAY/student-home"><%=pageName%></a> <span class="welcome"> Welcome back <%=userInfo[0].name%></span></h1>
     <div class="container">
       <nav>
-        <p><a href="about">About</a></p>
-        <p><a href="student-communication">Start chatting</a></p>
+        <p><a href="/RELAY/about">About</a></p>
+        <p><a href="/RELAY/student-communication">Start chatting</a></p>
       </nav>
 
        <!--Sign out button-->
@@ -34,11 +34,11 @@
     function signOut() {
       // Send a GET request to the sign-out route
       $.ajax({
-          url: '/sign-out',
+          url: '/RELAY/sign-out',
           type: 'GET',
           success: function(response) {
               // Redirect to the login page
-              window.location.href = '/';
+              window.location.href = '/RELAY/';
           },
           error: function(xhr, status, error) {
               console.error('Error signing out:', error);

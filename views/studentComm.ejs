@@ -2,12 +2,12 @@
 <html>
 <head>
     <title><%=pageName%></title>
-    <link rel="stylesheet"  type="text/css" href="/styles.css" /><!--CSS-->
+    <link rel="stylesheet"  type="text/css" href="/RELAY//styles.css" /><!--CSS-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!--Include JQUERY-->
 </head>
 <body class="studentPage">
     <!--Header with Logo home button and current user info-->
-    <h1><a class="studHome" href="/student-home"><%=pageName%></a> <p class="welcome"> Welcome back <%=userInfo[0].name%></p></h1>
+    <h1><a class="studHome" href="/RELAY/student-home"><%=pageName%></a> <span class="welcome"> Welcome back <%=userInfo[0].name%></span></h1>
     <div class="container">
     <div class="studComm">
         <form id="stuMessForm">
@@ -51,7 +51,7 @@
                 e.preventDefault(); // Prevent the form from submitting the traditional way
 
                 $.ajax({
-                    url: '/student-communication',
+                    url: '/RELAY/student-communication',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
@@ -83,7 +83,7 @@
         //Function to fetch messages from the server
         function fetchMessages() {
             $.ajax({
-                url: '/fetch-messages',
+                url: '/RELAY/fetch-messages',
                 type: 'GET',
                 success: function(response) {
                     if (response.messages.length > 0) { //Displays messages if user has any
@@ -129,11 +129,11 @@
 function signOut() {
     // Send a GET request to the sign-out route
     $.ajax({
-        url: '/sign-out',
+        url: '/RELAY/sign-out',
         type: 'GET',
         success: function(response) {
             // Redirect to the login page
-            window.location.href = '/';
+            window.location.href = '/RELAY/';
         },
         error: function(xhr, status, error) {
             console.error('Error signing out:', error);

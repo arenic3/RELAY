@@ -22,7 +22,7 @@ app.use(session({
 app.use(express.urlencoded({ extended: true }));
 
 //CSS
-app.use(express.static(__dirname + '/public'));
+app.use('/RELAY', express.static(__dirname + '/public'));
 
 //Define database connection
 const db = mysql.createConnection ({
@@ -43,7 +43,7 @@ global.db = db;
 
 //Route handlers
 const mainRoutes = require("./routes/main");  
-app.use('/', mainRoutes);
+app.use('/RELAY', mainRoutes);
 
 //Start the web app listening
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
