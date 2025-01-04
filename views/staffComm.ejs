@@ -11,9 +11,9 @@
     <div class="container">
     <div class="staffComm">
         <form id="staffMessForm">
-            <input type="hidden" name="teacherId" value="<%=userInfo[0].id%>"/>
+            <input type="hidden" name="senderId" value="<%=userInfo[0].id%>"/>
             <label for="recipient">Select recipient:</label>
-            <select name="studentId" id="recipient" required>
+            <select name="recipientId" id="recipient" required>
                 <option value="">--Select a student--</option>
                 <%for(let i = 0; i<students.length; i++) { %>
                         <option value="<%=students[i].id %>"><%=students[i].name%> (<%=students[i].email%>)</option>

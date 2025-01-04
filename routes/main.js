@@ -32,7 +32,7 @@ router.post('/home',function(req,res){
     if (email && password) {
 
         //Query the database for student email and password
-        const studentQuery = 'SELECT * FROM students WHERE email = ? AND password = ?';
+        const studentQuery = `SELECT * FROM users WHERE email = ? AND password = ? AND role = 'student'`;
         db.query(studentQuery, [email, password], (error, results) => {
 
             if (error) throw error;
@@ -68,7 +68,7 @@ router.post('/staff-home',function(req,res){
     if (email && password) {
 
         //Query the database for student email and password
-        const staffQuery = 'SELECT * FROM staff WHERE email = ? AND password = ?';
+        const staffQuery = `SELECT * FROM users WHERE email = ? AND password = ? AND role ='staff'`;
         db.query(staffQuery, [email, password], (error, results) => {
 
             if (error) throw error;
@@ -126,7 +126,7 @@ router.get('/staff-home',function(req,res){
 router.get('/student-communication',function(req,res){
     if (req.session.studentLoggedin) {
             //Query to get teacher list
-            const query = 'SELECT id, name, email FROM staff';
+            const query = `SELECT id, name, email FROM users WHERE role ='staff'`;
             db.query(query, (error, teachers) => {
                 if (error) throw error;
 
@@ -143,7 +143,7 @@ router.get('/student-communication',function(req,res){
 router.get('/staff-communication',function(req,res){
     if (req.session.staffLoggedin) {
         //Query to get student list
-        const query = 'SELECT id, name, email FROM students';
+        const query = `SELECT id, name, email FROM users WHERE role='student'`;
         db.query(query, (error, students) => {
             if (error) throw error;
 
@@ -160,10 +160,10 @@ router.get('/staff-communication',function(req,res){
 //Handle messaging (recieving message data through the form and sending it)
 router.post('/student-communication',function(req,res){
 
-    const { studentId, teacherId, message } = req.body;
+    const { senderId, recipientId, message } = req.body;
 
-    const query = 'INSERT INTO messages (student_id, _id, message, timestamp) VALUES (?, ?, ?, NOW())';
-    db.query(query, [studentId, teacherId, message], (error, results) => {
+    const query = 'INSERT INTO messages (sender_id, recipient_id, message, timestamp) VALUES (?, ?, ?, NOW())';
+    db.query(query, [senderId, recipientId, message], (error, results) => {
         if (error) throw error;
         res.send('message sent successfully');
     });
@@ -171,10 +171,10 @@ router.post('/student-communication',function(req,res){
 
 router.post('/staff-communication',function(req,res){
 
-    const { teacherId, studentId, message } = req.body;
+    const { senderId, recipientId, message } = req.body;
 
-    const query = 'INSERT INTO messages (student_id, teacher_id, message, timestamp) VALUES (?, ?, ?, NOW())';
-    db.query(query, [studentId, teacherId, message], (error, results) => {
+    const query = 'INSERT INTO messages (sender_id, recipient_id, message, timestamp) VALUES (?, ?, ?, NOW())';
+    db.query(query, [senderId, recipient, message], (error, results) => {
         if (error) throw error;
         res.send('message sent successfully');
     });
@@ -193,13 +193,13 @@ router.get('/fetch-messages',function(req,res){
                 m.id,
                 m.message,
                 m.timestamp,
-                s.name AS sender_name
+                u.name AS sender_name
             FROM
                 messages m
             JOIN
-                staff s ON m.teacher_id = s.id
+                users u ON m.sender_id = u.id
             WHERE
-                m.student_id = ?
+                m.recipient_id = ?
             ORDER BY 
                 m.timestamp DESC;
             `;
@@ -210,13 +210,13 @@ router.get('/fetch-messages',function(req,res){
                 m.id,
                 m.message,
                 m.timestamp,
-                st.name AS sender_name
+                u.name AS sender_name
             FROM
                 messages m
             JOIN
-                students st ON m.student_id = st.id
+                users u ON m.sender_id = u.id
             WHERE
-                m.teacher_id = ?
+                m.recipient_id = ?
             ORDER BY
                 m.timestamp DESC;
             `;

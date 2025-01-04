@@ -41,6 +41,14 @@ db.connect((err) => {
 });
 global.db = db;
 
+db.query('SELECT * FROM users', (err, results) => {
+    if (err) {
+        console.error('error running query:', err);
+        return;
+    }
+    console.log('results:', results);
+});
+
 //Route handlers
 const mainRoutes = require("./routes/main");  
 app.use('/RELAY', mainRoutes);
