@@ -43,7 +43,7 @@ global.db = db;
 
 //Route handlers
 const mainRoutes = require("./routes/main");  
-app.use('/RELAY', mainRoutes);
+app.use('/RELAY', mainRoutes); //Mount base path
 
 //Start the web app listening
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
